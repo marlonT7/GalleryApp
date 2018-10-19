@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Gallery App</string>
+    <string name="photo_thumbnail">Photo\'s thumbnail</string>
+    <string name="nasa_photo">Nasa photo</string>
+    <string name="title_activity_photo">Photo</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="launch">Launch: </string>
+    <string name="landing">Landing:</string>
+    <string name="date">date</string>
+    <string name="hide">Hide detail</string>
+    <string name="name">Name</string>
+</resources>
