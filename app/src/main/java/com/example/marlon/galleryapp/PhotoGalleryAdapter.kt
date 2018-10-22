@@ -28,7 +28,7 @@ class PhotoGalleryAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     // callback interface
     interface SelectedPhoto {
-        fun clickItem(position: Int)
+        fun clickItem(position: Int,photo:ImageView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -63,10 +63,13 @@ class PhotoGalleryAdapter(
     private fun bindView(holder: RecyclerView.ViewHolder, position: Int): RecyclerView.ViewHolder {
         val photo: ImageView
         val progress: ProgressBar
+
         if (grid) {
+            // If the layout is a grid, uses these item properties names
             photo = holder.itemView.photo_thumbnail
             progress = holder.itemView.progress_thumbnail
         } else {
+            // If the layout is not a grid, uses these item properties names
             photo = holder.itemView.photo
             progress = holder.itemView.progress
             val sheetBehavior = BottomSheetBehavior.from<LinearLayout>(holder.itemView.bottom_sheet)
@@ -81,9 +84,11 @@ class PhotoGalleryAdapter(
                         }
                         BottomSheetBehavior.STATE_EXPANDED -> {
                             val nasaPhoto = photos?.get(position)
+                            // Sets the data in the bottom sheet view
                             bottomSheet.name.text = nasaPhoto?.camera?.name
                             bottomSheet.launch_date.text = nasaPhoto?.rover?.launchDate
                             bottomSheet.landing_date.text = nasaPhoto?.rover?.landingDate
+                            // Hide bottom sheet button
                             bottomSheet.hide.setOnClickListener { expandCloseSheet(sheetBehavior) }
                         }
                         BottomSheetBehavior.STATE_COLLAPSED -> {
@@ -100,7 +105,9 @@ class PhotoGalleryAdapter(
             })
             photo.setOnLongClickListener { expandCloseSheet(sheetBehavior) }
         }
-        photo.setOnClickListener { selectedPhoto.clickItem(position) }
+        // Opens a new activity if the image view is clicked
+        photo.setOnClickListener { selectedPhoto.clickItem(position,photo) }
+        // Download and display image or display progress bar in the image view
         GlideApp.with(fragment)
             .load(photos?.get(position)?.imgSrc)
             .listener(object : RequestListener<Drawable> {
@@ -138,6 +145,7 @@ class PhotoGalleryAdapter(
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     private fun expandCloseSheet(sheetBehavior: BottomSheetBehavior<LinearLayout>): Boolean {
+        // Changes the bottom sheet behavior state
         if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         } else {

@@ -8,10 +8,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import kotlinx.android.synthetic.main.gallery_fragment_layout.view.*
 
 class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
-    override fun clickItem(position: Int) {
+    override fun clickItem(position: Int,photo: ImageView) {
+        // Changes the screen mode
         if (fullScreen) {
             hideSystemUI()
         } else {
@@ -24,6 +26,7 @@ class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
     private var fullScreen = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Gets the initial data
         arguments?.let {
             position = it.getInt(KEY_POSITION)
             photos = it.getParcelableArrayList(KEY_PHOTOS)
@@ -53,9 +56,11 @@ class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
             // specify an viewAdapter
             adapter = viewAdapter
         }
+        // Displays the selected item from previous activity or fragment
+        viewManager.scrollToPosition(position)
+        // It allows the Navigation view as pages, through the recycler view
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(recyclerView)
-        viewManager.scrollToPosition(position)
         return view
     }
 

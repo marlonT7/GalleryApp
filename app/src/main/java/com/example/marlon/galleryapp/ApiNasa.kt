@@ -26,8 +26,12 @@ class ApiNasa {
             "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/"//photos?sol=50"//&page=3"
         private var retrofit: Retrofit? = null
         private lateinit var weakReference: WeakReference<Context>
-        fun getApi(weakReference: WeakReference<Context>): Retrofit? {
+        /**
+         *@param weakReference reference to the activity or fragment that calls the method
+         */
 
+        fun getApi(weakReference: WeakReference<Context>): Retrofit? {
+            // Creates the okHttp client for save and load the cache
             this.weakReference = weakReference
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(provideOfflineCacheInterceptor())
@@ -35,7 +39,7 @@ class ApiNasa {
                 .cache(provideCache())
                 .build()
 
-
+            // Creates the retrofit client for request and read the json
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -49,7 +53,7 @@ class ApiNasa {
         private fun provideOfflineCacheInterceptor(): Interceptor {
             return Interceptor { chain ->
                 var request = chain.request()
-
+                // If is connected to the server, writes in cache
                 if (isConnected()) {
                     val cacheControl = CacheControl.Builder()
                         .maxStale(60, TimeUnit.DAYS)
@@ -77,6 +81,7 @@ class ApiNasa {
             }
         }
 
+        // Use the activity or fragment cache
         private fun provideCache(): Cache? {
             var cache: Cache? = null
             try {

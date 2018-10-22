@@ -13,6 +13,7 @@
             android:visibility="visible"/>
     <ImageView
             android:id="@+id/photo_thumbnail"
+            android:transitionName="nasa_photo"
             android:layout_width="110dp"
             android:scaleType="center"
             android:adjustViewBounds="true"

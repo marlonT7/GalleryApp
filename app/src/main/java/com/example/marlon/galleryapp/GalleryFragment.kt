@@ -2,6 +2,7 @@ package com.example.marlon.galleryapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,6 +15,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.ref.WeakReference
+import android.support.v4.app.ActivityOptionsCompat
+import android.widget.ImageView
 
 
 const val COLUMNS = 3
@@ -33,10 +36,12 @@ class GalleryFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //  Creates service request data
         service = ApiNasa.getApi(WeakReference(context!!))?.create(NasaService::class.java)
         callApi()
     }
 
+    // Uses the service request the next data page
     fun callApi() {
         page++
         photoCall = service?.getPhotos(50, page, API_KEY)
@@ -58,7 +63,6 @@ class GalleryFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
         viewManager = GridLayoutManager(this.context, COLUMNS)
         // Sets data to the recycler view
         viewAdapter = PhotoGalleryAdapter(photos?.photos, this, true, this)
-        // Divides the data in categories and send to the corresponding view page
         recyclerView = view.photo_gallery.apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -72,21 +76,23 @@ class GalleryFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
         return view
     }
 
-    override fun clickItem(position: Int) {
+    override fun clickItem(position: Int,photo: ImageView) {
+        // Sends data to the new activity
         val bundle = Bundle().apply {
             putParcelableArrayList(KEY_PHOTOS, photos?.photos)
             putInt(KEY_POSITION, position)
         }
         val intent = Intent(context, PhotoActivity::class.java)
         intent.putExtras(bundle)
-        startActivity(intent)
+        // Open the new activity whit animation
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity!!, photo as View, "nasa_photo")
+        ActivityCompat.startActivity(activity!!,intent, options.toBundle())
     }
 
     // Pagination if need more elements from the api
     class OnScrollListener(private val fragment: GalleryFragment) : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            // If the task has finished, run the task with a new url
             if (!(recyclerView!!.canScrollVertically(1))) {
                 fragment.callApi()
             }
