@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class Photos(
     @SerializedName("photos")
-    val photos: ArrayList<NasaPhoto>
+    val photos: ArrayList<NasaPhoto?>
 ){
     fun parseJSON(response: String): NasaPhoto{
         val gson=GsonBuilder().create()

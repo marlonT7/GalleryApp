@@ -18,10 +18,13 @@ import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.photo_item.view.*
+import android.support.v4.app.ActivityCompat.startPostponedEnterTransition
+
+
 
 
 class PhotoGalleryAdapter(
-    private var photos: ArrayList<NasaPhoto>?,
+    private var photos: ArrayList<NasaPhoto?>?,
     private val selectedPhoto: SelectedPhoto,
     private val grid: Boolean,
     private val fragment: Fragment
@@ -39,11 +42,11 @@ class PhotoGalleryAdapter(
             LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false)
         }
         // set the view's size, margins, paddings and layout parameters
-        return MyViewHolder(view = view)
+        return MyViewHolder(view)
 
     }
 
-    fun setData(newList: ArrayList<NasaPhoto>?) {
+    fun setData(newList: ArrayList<NasaPhoto?>?) {
         photos = newList ?: photos
         notifyDataSetChanged()
     }
@@ -107,6 +110,7 @@ class PhotoGalleryAdapter(
         }
         // Opens a new activity if the image view is clicked
         photo.setOnClickListener { selectedPhoto.clickItem(position,photo) }
+        photo.transitionName= "$position"
         // Download and display image or display progress bar in the image view
         GlideApp.with(fragment)
             .load(photos?.get(position)?.imgSrc)
@@ -118,6 +122,7 @@ class PhotoGalleryAdapter(
                     isFirstResource: Boolean
                 ): Boolean {
                     progress.visibility = View.GONE
+                    startPostponedEnterTransition(fragment.activity!!)
                     return false
                 }
 
@@ -129,6 +134,7 @@ class PhotoGalleryAdapter(
                     isFirstResource: Boolean
                 ): Boolean {
                     progress.visibility = View.GONE
+                    startPostponedEnterTransition(fragment.activity!!)
                     return false
                 }
             })

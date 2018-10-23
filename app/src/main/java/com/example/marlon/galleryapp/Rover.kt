@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-class Rover(
+data class Rover(
     @SerializedName("landing_date")
     val landingDate: String,
     @SerializedName("launch_date")

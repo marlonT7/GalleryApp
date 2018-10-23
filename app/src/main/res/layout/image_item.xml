@@ -13,7 +13,6 @@
             android:layout_gravity="center"/>
     <ImageView
             android:id="@+id/photo"
-            android:transitionName="nasa_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

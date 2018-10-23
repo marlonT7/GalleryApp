@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,19 +20,18 @@ class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
         }
     }
 
-    private var photos: ArrayList<NasaPhoto>? = null
+    private var photos: ArrayList<NasaPhoto?>? = null
     private var position = 0
     private var fullScreen = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        postponeEnterTransition()
         // Gets the initial data
         arguments?.let {
             position = it.getInt(KEY_POSITION)
             photos = it.getParcelableArrayList(KEY_PHOTOS)
         }
     }
-
-    private var recyclerView: RecyclerView? = null
 
     private lateinit var viewManager: LinearLayoutManager
 
@@ -42,12 +40,11 @@ class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         hideSystemUI()
-
         val view = inflater.inflate(R.layout.gallery_fragment_layout, container, false)
         viewManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         // Sets data to the recycler view
         viewAdapter = PhotoGalleryAdapter(photos, this, false, this)
-        recyclerView = view.photo_gallery.apply {
+        view.photo_gallery.apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -60,7 +57,7 @@ class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
         viewManager.scrollToPosition(position)
         // It allows the Navigation view as pages, through the recycler view
         val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
+        snapHelper.attachToRecyclerView(view.photo_gallery)
         return view
     }
 
