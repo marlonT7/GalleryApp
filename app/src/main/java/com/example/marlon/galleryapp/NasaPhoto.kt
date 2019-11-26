@@ -9,11 +9,11 @@ data class NasaPhoto(
     @SerializedName("id")
     val id: Int,
     @SerializedName("camera")
-    val camera: Camera,
+    val camera: Camera?,
     @SerializedName("img_src")
-    val imgSrc: String,
+    val imgSrc: String?,
     @SerializedName("rover")
-    val rover: Rover
+    val rover: Rover?
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(

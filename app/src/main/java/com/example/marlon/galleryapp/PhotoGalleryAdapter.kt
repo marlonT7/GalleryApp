@@ -1,9 +1,7 @@
 package com.example.marlon.galleryapp
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +14,12 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
+import androidx.core.app.ActivityCompat.startPostponedEnterTransition
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.photo_item.view.*
-import android.support.v4.app.ActivityCompat.startPostponedEnterTransition
-
-
 
 
 class PhotoGalleryAdapter(
@@ -81,6 +80,7 @@ class PhotoGalleryAdapter(
              * we are changing button text when sheet changed state
              * */
             sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                @SuppressLint("SwitchIntDef")
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     when (newState) {
                         BottomSheetBehavior.STATE_HIDDEN -> {
@@ -118,7 +118,7 @@ class PhotoGalleryAdapter(
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     progress.visibility = View.GONE
@@ -148,7 +148,7 @@ class PhotoGalleryAdapter(
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a string in this case that is shown in a TextView.
-    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     private fun expandCloseSheet(sheetBehavior: BottomSheetBehavior<LinearLayout>): Boolean {
         // Changes the bottom sheet behavior state

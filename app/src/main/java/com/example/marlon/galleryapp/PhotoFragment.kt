@@ -1,9 +1,9 @@
 package com.example.marlon.galleryapp
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PagerSnapHelper
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +41,11 @@ class PhotoFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
         // Inflate the layout for this fragment
         hideSystemUI()
         val view = inflater.inflate(R.layout.gallery_fragment_layout, container, false)
-        viewManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        viewManager = LinearLayoutManager(
+            this.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
         // Sets data to the recycler view
         viewAdapter = PhotoGalleryAdapter(photos, this, false, this)
         view.photo_gallery.apply {

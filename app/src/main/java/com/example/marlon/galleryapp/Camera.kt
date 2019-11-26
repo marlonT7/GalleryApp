@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Camera(
     @SerializedName("name")
-    val name:String
+    val name:String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.readString())
 

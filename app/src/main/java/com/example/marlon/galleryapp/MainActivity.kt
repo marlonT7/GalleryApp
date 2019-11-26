@@ -1,7 +1,7 @@
 package com.example.marlon.galleryapp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.example.marlon.galleryapp.R.layout.activity_main
 
 

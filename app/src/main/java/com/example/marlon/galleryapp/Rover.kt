@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Rover(
     @SerializedName("landing_date")
-    val landingDate: String,
+    val landingDate: String?,
     @SerializedName("launch_date")
-    val launchDate: String
+    val launchDate: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

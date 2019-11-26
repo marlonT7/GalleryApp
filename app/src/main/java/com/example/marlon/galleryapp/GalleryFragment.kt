@@ -2,10 +2,10 @@ package com.example.marlon.galleryapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +61,8 @@ class GalleryFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.gallery_fragment_layout, container, false)
-        viewManager = GridLayoutManager(context, COLUMNS)
+        viewManager =
+            GridLayoutManager(context, COLUMNS)
         // Sets data to the recycler view
         viewAdapter = PhotoGalleryAdapter(photos?.photos, this, true, this)
         view.photo_gallery.apply {
@@ -94,9 +95,9 @@ class GalleryFragment : Fragment(), PhotoGalleryAdapter.SelectedPhoto {
 
     // Pagination if need more elements from the api
     class OnScrollListener(private val fragment: GalleryFragment) : RecyclerView.OnScrollListener() {
-        override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            recyclerView?.let {
+            recyclerView.let {
                 if (!(it.canScrollVertically(1))) {
                 fragment.callApi()
             } }
