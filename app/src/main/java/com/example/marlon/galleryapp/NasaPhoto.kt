@@ -2,7 +2,6 @@ package com.example.marlon.galleryapp
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 
 data class NasaPhoto(
@@ -22,16 +21,6 @@ data class NasaPhoto(
         parcel.readString(),
         parcel.readParcelable(Rover::class.java.classLoader)
     )
-    // Used in GSON convert
-    fun parseJOSN(response:String): Camera{
-        val gson= GsonBuilder().create()
-        return gson.fromJson(response,Camera::class.java)
-    }
-    // Used in GSON convert
-    fun parseJSON(response: String): Rover{
-        val gson= GsonBuilder().create()
-        return gson.fromJson(response,Rover::class.java)
-    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)

@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.bottom_sheet.view.*
 import androidx.core.app.ActivityCompat.startPostponedEnterTransition
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.image_item.view.*
 import kotlinx.android.synthetic.main.photo_item.view.*
@@ -112,7 +113,7 @@ class PhotoGalleryAdapter(
         photo.setOnClickListener { selectedPhoto.clickItem(position,photo) }
         photo.transitionName= "$position"
         // Download and display image or display progress bar in the image view
-        GlideApp.with(fragment)
+        GlideApp.with(photo)
             .load(photos?.get(position)?.imgSrc)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
